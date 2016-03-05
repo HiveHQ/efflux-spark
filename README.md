@@ -4,7 +4,11 @@ This project serves as a single-source repository for everything needed to get a
 When combined with AWS, Apache Spark serves as a great tool for processing huge data sets. The biggest benefit in the newer versions of Hadoop is the S3A access method, for much faster and flexible reading from S3 buckets. That is not ready to use out of the box, so we try and get that going here for you.
 
 ## Quick start on EC2
-Untar the spark archive and change into the `ec2` directory
+Download spark: http://www.apache.org/dyn/closer.lua/spark/spark-1.6.0/spark-1.6.0-bin-hadoop2.6.tgz
+
+Untar the spark archive and change into the `ec2` directory.
+
+You'll use the `spark-tools` directory in this repo to launch your cluster.
 
 Set your AWS IAM env variables:
 
