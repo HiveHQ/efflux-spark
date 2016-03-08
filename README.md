@@ -87,6 +87,9 @@ python -V #should show you Python 2.7.X
 wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 
+#install what you need here
 pip install netaddr pymongo boto3 boto
 ```
+
+Now you can create your AMI image, make it public, and feed that to the `-a AMI` switch on your ec2 config script.
 
