@@ -57,5 +57,36 @@ You can store your credentials in ENV vars or by editing `/root/spark/conf/core-
 Finally, we have to move those jar files to all slaves, so from the `/root` directory:
 `./spark-ec2/copy-dir.sh /spark-tools`
 
+## Custom AMIs  
 
+Needless to say, the spark AMI that the ec2 scripts use is old. At Efflux we're using Python for our preferred language to do analysis, so that means we want to use some additional libraries that are not installed.
+
+We create our own AMI instance off of the base hvm AMI instance that the current ec2 scripts (as of 1.6) uses. You can fire up an EC2 instance of the current AMI by searching for the right AMI intance based off of the region you're running in.
+
+https://github.com/amplab/spark-ec2/tree/branch-1.5/ami-list 
+
+We use us-east-1 so, we build our image off of: ami-35b1885c
+
+Some key things to note is that the ec2 scripts expect `root` to be enabled, newer AMI instances utilize `ec2-user`
+
+After we launch the default AMI (takes a while to spin up b/c of updates) we upgrade Python and install additional Python packages:
+
+```
+yum install make automake gcc gcc-c++ kernel-devel git-core -y 
+
+yum install python27-devel -y 
+rm /usr/bin/python
+ln -s /usr/bin/python2.7 /usr/bin/python 
+
+cp /usr/bin/yum /usr/bin/_yum_before_27 
+sed -i s/python/python2.6/g /usr/bin/yum 
+sed -i s/python2.6/python2.6/g /usr/bin/yum 
+
+python -V #should show you Python 2.7.X
+
+wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+
+pip install netaddr pymongo boto3 boto
+```
 
