@@ -19,6 +19,9 @@ These are the options I generally use to ge things going, you can always check o
 Note that to use S3A you need:
 * `--hadoop-major-version 2`
 * `--deploy-root-dir=/absolute/path/to/spark-tools` -- The additonal jar files in the `spark-tools` directory of this repo in order to use the S3A methods.
+* 
+Some other options:
+* If your app needs specific packages (i.e. Python modules) you may want to create your own AWS Linux AMI image with the packages pre-installed and use that. Otherwise you'll be in a world of ass-pain trying to get master and slaves configured the way you need. You can use the `-a AMI` option to make use of that custom AMI.
 
 `./spark-ec2 -k KEY_PAIR_NAME -i PATH_TO_PEM -s NUM_SLAVES --hadoop-major-version=2 --deploy-root-dir=/abs/path/to/spark-tools launch CLUSTER_NAME`
 
