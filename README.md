@@ -28,7 +28,7 @@ Note that to use S3A you need:
 Now, login to your master:
 `./spark-ec2 -k KEY_PAIR_NAME -i PATH_TO_PEM login CLUSTER_NAME`
 
-Source the config.sh script in the `/spark-config` directory: 
+Source the config.sh script in the `/spark-config` directory, this will setup the S3A libs and settings you need, and replicate the needed JAR files to the slaves.
 ```
 chmod +x /spark-config/config.sh
 source /spark-config/config.sh
@@ -81,5 +81,5 @@ python get-pip.py
 pip install netaddr pymongo boto3 boto
 ```
 
-Now you can create your AMI image, make it public, and feed that to the `-a AMI` switch on your ec2 config script.
+Now you can create your AMI image and feed that to the `-a AMI` switch on your ec2 config script.
 
