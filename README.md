@@ -21,24 +21,17 @@ Note that to use S3A you need:
 * `--deploy-root-dir=/absolute/path/to/spark-tools` -- The additonal jar files in the `spark-tools` directory of this repo in order to use the S3A methods.
 * Some other options:
 * If your app needs specific packages (i.e. Python modules) you may want to create your own AWS Linux AMI image with the packages pre-installed and use that. Otherwise you'll be in a world of ass-pain trying to get master and slaves configured the way you need. You can use the `-a AMI` option to make use of that custom AMI.
-* `-t INSTANCE_TYPE` -- use m4.large as default
+* `-t INSTANCE_TYPE` -- use `m4.large` as default or select a custom
 
 `./spark-ec2 -k KEY_PAIR_NAME -i PATH_TO_PEM -s NUM_SLAVES -a AMI -t m4.large --hadoop-major-version=2 --deploy-root-dir=/abs/path/to/spark-tools launch CLUSTER_NAME`
 
 Now, login to your master:
 `./spark-ec2 -k KEY_PAIR_NAME -i PATH_TO_PEM login CLUSTER_NAME`
 
-And create: `/root/spark/conf/spark.properties`
-
-And add the following:
+Source the config.sh script in the `/spark-config` directory: 
 ```
-spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
-```
-
-Now, edit: `/root/spark/conf/spark-defaults.conf` and add the following lines:
-```
-spark.driver.extraClassPath /spark-tools/hadoop-aws-2.7.1.jar:/spark-tools/aws-java-sdk-1.7.4.jar
-spark.executor.extraClassPath /spark-tools/hadoop-aws-2.7.1.jar:/spark-tools/aws-java-sdk-1.7.4.jar
+chmod +x /spark-config/config.sh
+source /spark-config/config.sh
 ```
 
 You can store your credentials in ENV vars or by editing `/root/spark/conf/core-site.xml` and adding:
@@ -53,9 +46,6 @@ You can store your credentials in ENV vars or by editing `/root/spark/conf/core-
     <value>SECRET_KEY</value>
   </property>
 ```
-
-Finally, we have to move those jar files to all slaves, so from the `/root` directory:
-`./spark-ec2/copy-dir.sh /spark-tools`
 
 ## Custom AMIs  
 
